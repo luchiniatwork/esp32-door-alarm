@@ -20,6 +20,7 @@ is normally closed i.e. the contacts are normally closed and open when
 the switch is actuated."
   (let [open-event (event.create)
         close-event (event.create)]
+    (var state nil)
     (thread.start
      (fn []
        (let [door-pin (. opts :door-pin)
@@ -27,7 +28,7 @@ the switch is actuated."
              actuation-mode (. opts :actuation-mode)]
          (pio.pin.setdir pio.INPUT door-pin)
          (pio.pin.setpull pin-mode door-pin)
-         (var state (parse-raw-state (pio.pin.getval door-pin)
+         (set state (parse-raw-state (pio.pin.getval door-pin)
                                      actuation-mode))
          (while true
            (let [new-state (parse-raw-state (pio.pin.getval door-pin)
@@ -40,6 +41,6 @@ the switch is actuated."
              (tmr.delayms 200))))))
     {:open-event open-event
      :close-event close-event
-     :state state}))
+     :get-state (fn [] state)}))
 
 {:start start}

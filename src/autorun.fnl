@@ -13,6 +13,12 @@
 (thread.start
  (fn []
    (while true
+     (print (my-door.get-state))
+     (tmr.delayms 1000))))
+
+(thread.start
+ (fn []
+   (while true
      (my-door.open-event:wait)
      (print "door is now open")
      (my-door.open-event:done)
