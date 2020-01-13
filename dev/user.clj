@@ -12,6 +12,8 @@
 
   (bd/send-command! board "os.ls()")
 
+  (bd/send-command! board "thread.list()")
+
   (bd/send-command! board "os.remove(\"bell2.lua\")")
 
   (bd/send-command! board "dofile(\"bell.lua\")")
