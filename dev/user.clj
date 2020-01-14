@@ -4,13 +4,11 @@
 (comment
   (def board (bd/connect-board! "/dev/tty.SLAB_USBtoUART"))
 
-  (bd/watch-dir! board "src")
+  (bd/watch-dir! board "src" "esp32-shared/src")
 
-  (bd/write-file! board "out/autorun.lua" "autorun.lua")
-  
   (bd/send-command! board "os.ls(\"examples/lua\")")
 
-  (bd/send-command! board "os.ls()")
+  (bd/send-command! board "os.ls(\"lib/share/lua\")")
 
   (bd/send-command! board "thread.list()")
 
@@ -22,6 +20,8 @@
 
   (bd/send-command! board "dofile(\"door.lua\")")
 
+  (bd/send-command! board "package.path")
+  
   (bd/send-command! board "package.loaded[\"fennelview\"] = nil")
   (bd/send-command! board "fnl = require(\"fennelview\")")
   (bd/send-command! board "fnl(pio)")

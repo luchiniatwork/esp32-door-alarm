@@ -1,0 +1,3 @@
+[submodule "esp32-shared"]
+	path = esp32-shared
+	url = git@github.com:luchiniatwork/esp32-shared.git
