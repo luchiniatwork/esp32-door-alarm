@@ -3,6 +3,7 @@
 (global view (require :fennelview))
 (global door (require :door))
 (global button (require :button))
+(global bms (require :bms))
 
 (local my-door (door.start {:door-pin pio.GPIO4
                             :pin-mode pio.PULLDOWN
@@ -20,6 +21,18 @@
               (fn [] (print "button down")))
 (utils.listen my-button.up-event
               (fn [] (print "button up")))
+
+
+(global my-bms (bms.start {:battery-pin pio.GPIO34
+                           :total-battery-voltage 4.5
+                           :threshold-voltage 3.3}))
+(utils.listen my-bms.low-battery-event
+              (fn [] (print "low battery")))
+
+(tmr.delay 10)
+(print (my-bms.get-state))
+
+
 ;; (utils.listen my-button.press-event
 ;;               (fn [] (print "button press")))
 
@@ -47,3 +60,8 @@
 ;;      (tmr.delayms 20))))
 
 ;; (dofile "play.lua")
+
+;; (while (not (net.connected))
+;;   (print ".")
+;;   (tmr.delay 2))
+;; (print "my ip" (-> (net.stat true) (. 0) (. :ip)))
